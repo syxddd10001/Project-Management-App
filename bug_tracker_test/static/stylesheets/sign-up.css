@@ -1,0 +1,81 @@
+html,
+body {
+  background: linear-gradient(112.1deg, rgb(113, 144, 248) 11.4%, rgb(114, 253, 168) 70.2%);
+}
+
+.background{
+  border-radius: 20px;
+}
+
+.form_signup{
+  height: 550px;
+  width: 400px;
+  background-color: rgb(255, 255, 255);
+  position: absolute;
+  padding: 50px 50px;
+  top: 10%;
+  left: 35%;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 40px rgba(8,7,16,0.6);
+}
+
+
+
+form *{
+  max-width: 400px;
+  font-family: "Quicksand";
+  color: rgb(0, 0, 0);
+  letter-spacing: 0.5px;
+}
+
+button{
+  border-radius: 20px;
+  background-color: #ffffff;
+  transition: background-color 0.2s ease-in-out;
+  transition: color 0.2s ease-in-out;
+  color: #000000;
+  cursor: pointer;
+  
+  height: 35px;
+  display: block;
+  width: 50%;
+}
+
+button:hover{
+  border-radius: 20px;
+  background-color: #000000;
+  color: #ffffff;
+  cursor: pointer;
+  height: 35px;
+  display: block;
+  width: 50%;
+}
+
+.signup {
+  margin-top: 10px;
+}
+
+.login{
+    margin-top: 20px;
+    font-family: "Quicksand";
+}
+
+input{
+  display: block;
+  height: 40px;
+  width: 100%;
+  border-radius: 30px;
+  font-size: large;
+  text-align: justify;
+  padding-left:20px;
+  margin-right: 10px;
+}
+
+label{
+  display: block;
+  margin-top: 25px;
+  text-align: justify;
+  font-size: large;
+  margin-left: 10px;
+}

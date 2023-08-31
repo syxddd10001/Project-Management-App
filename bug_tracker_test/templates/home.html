@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <title>Software Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/home.css') }}">
+  </head>
+  
+  <body>
+    <navbar class="navbar">
+      <button>PROFILE</button>
+      <button>LOGOUT</button>
+    </navbar>
+    
+    <div align='center' class="background"> 
+      <form method="post" action="/home">
+       
+        <ul>
+          {% for item in data %}
+              <p>{{ item }}</p>
+          {% endfor %}
+      </ul>
+      </form>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,6 @@
+.navbar{
+    display: block;
+    margin: 10px;
+    justify-content: end;
+    align-items: flex-end;
+}

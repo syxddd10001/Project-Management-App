@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <title>Software Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/sign-in.css') }}">
+  </head>
+  
+  <body>
+    <div align='center' class="background"> 
+      <div class="form_login">
+        <form method="post">
+          <h3>Login</h3>
+          <label for="username">Username</label>
+          <input class="form-signin" type="text" name="username" required/>    
+          <label for="password">Password</label>
+          <input type="password" name="password" required minlength="6"/>
+          <label style="color:red;display: inline-flex;" name="error_statement">{{error_statement}}</label>
+          <button class = "login" type="submit" name="login">Login</button>
+        </form>
+        <a style="text-decoration: none;"href="{{ url_for('signup') }}" ><Button class="signup">Signup</Button></a>
+      </div>
+      
+    </div>
+  </body>
+</html>
