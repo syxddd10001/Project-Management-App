@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Your Custom Title{% endblock %}
+
+{% block content %}
+    <!-- Your specific content for the profile page goes here --> 
+    
+        <div class="form_create_projects">
+            <h3>Add A Project</h3>
+            <form method="post" action="/addprojects">
+                <label for="projectname">Project Name</label>
+                <input class="form-signin" type="text" name="projectname" required minlength="3"/>    
+                <label for="github">GitHub (Optional)</label>
+                <input class="github" type="text" name="github">
+                <label for="description">Description</label>
+                <input name="description" required minlength="6"/>
+                <label style="color:red;display: inline-flex;" name="error_statement">{{error_statement}}</label>
+                <button class="button_a"type="submit" name="submit">Add Project</button>
+            </form>
+        </div>
+   
+    
+    <form method="post" action="/projects">
+        <ul>
+        {% for project in data %}
+          <div class="projects">
+            <p>{{ project.get_id() }} {{ project.get_name() }}</p>
+          </div>
+        {% endfor %}
+      </ul>
+    </form>
+    
+{% endblock %}

@@ -1,7 +1,9 @@
+#modules for regular expression and system
 import sys
 import re
 
-import mysql.connector
+#modules for flask and mysql
+import mysql.connector 
 from flask import (Flask, 
                    render_template, 
                    request, 
@@ -10,6 +12,7 @@ from flask import (Flask,
                    session)
 from flask_mysqldb import MySQL
 
+#custom modules to define environment variables and classes
 sys.path.append('model')
 import users
 import projects
@@ -17,15 +20,18 @@ import bugs
 
 #pass_inp = input('db passwd: ')
 
-AUTHENTICATION = False
+AUTHENTICATION = False #to check if user is logged in
 logged_user = None
-blacklist = ['--','"',"'", ';']
-regex_email = re.compile('[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}')
-regex_github = re.compile('https://github.com/[A-Za-z0-9.-_]')
-error = ''
-app = Flask(__name__)
+blacklist = ['--','"',"'", ';'] # invalid characters
+regex_email = re.compile('[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}') #regular expression to check the pattern of the emails
+regex_github = re.compile('https://github.com/[A-Za-z0-9.-_]') #regular expression to check the pattern of the githubs
+error = '' # error message
+
+#standard flask
+app = Flask(__name__) 
 app.secret_key = 'hGmX2L!0lxfoldxadfsfdonbgu313dxfhnsqwlg'
 
+#connector to mysql server
 conn = mysql.connector.connect(
         host='localhost',
         user='syxddd',
@@ -33,16 +39,20 @@ conn = mysql.connector.connect(
         database = 'bugbase'
     )
 print("Connection Successful")
-conn.autocommit = True
-cursor = conn.cursor(buffered=True)
+conn.autocommit = True #saves data automatically without commiting manually every time data is written or retrieved
+cursor = conn.cursor(buffered=True) #mysql cursor
 
+#standard flask + mysql
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'syxddd'
-app.config['MYSQL_PASSWORD'] = 'popcornPOP!001'
+app.config['MYSQL_PASSWORD'] = 'securepassword!'
 app.config['MYSQL_DB'] = 'bugbase'
 
 mysql = MySQL(app)
+
+
+#initial check whether user is logged in
 @app.route('/',methods=['GET','POST'])
 def index():
     if not logged_user:
@@ -50,7 +60,7 @@ def index():
     else: 
         return redirect(url_for('home'))
 
-
+#login page
 @app.route('/login',methods=['GET','POST'])
 def login():
     if request.method == 'POST':
@@ -63,6 +73,8 @@ def login():
 
     return render_template('login.html')
 
+
+#signup page
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():     
     if request.method == "POST":
@@ -74,27 +86,30 @@ def signup():
     
     return render_template('signup.html')
 
+#home page after logging in
 @app.route('/home', methods=['POST','GET'])
 def home():  
     if logged_user!=None:            
-        success(cursor, logged_user)
-        return render_template('home.html', user_name=logged_user.get_username(), data=success(cursor, logged_user))    
+        user_data = success(cursor, logged_user)
+        return render_template('home.html', user=logged_user, data=user_data)   
+                                                                                #data is being passed onto the html page for rendering all user related data
         
     else: 
         print('error')
         return redirect(url_for('login'))
         
     
-
+# geting user data
 def success(cursor, user):
     global error
     if user == None:
         error = "no user logged in"
         return
-    res = user.read_projects(cursor)
-    
-    return res
+    result = user.read_projects(cursor)
 
+    return result
+
+#logout
 @app.route('/logout')
 def logout():
     global logged_user
@@ -102,6 +117,36 @@ def logout():
     logged_user = None
     return redirect(url_for('index'))
 
+#user profile
+@app.route('/profile',methods=['GET'])
+def profile():
+    if logged_user is None:
+        return redirect(url_for('index'))
+    result = logged_user
+    return render_template('profile.html', user_name=logged_user.get_username(), data=result)
+
+@app.route('/projects',methods=['GET','POST'])
+def projects():
+    if logged_user is None:
+        return redirect(url_for('index'))
+
+    result = logged_user.read_projects(cursor)
+    return render_template('projects.html', user_name=logged_user.get_username(), data=result)
+
+@app.route('/addprojects',methods=['GET','POST'])
+def add_projects():
+    if logged_user is None:
+        return redirect(url_for('index'))
+    if request.method == 'POST':
+        if (create_project(cursor)):
+            return redirect(url_for('projects'))
+        else:  
+            return render_template('projects.html', error_statement=error)
+    
+    result = logged_user.read_projects(cursor)
+    return render_template('projects.html', user_name=logged_user.get_username(), data=result)
+
+#function for logging in
 def login(cursor):   
     user = request.form['username']
     passw = request.form['password']
@@ -130,7 +175,7 @@ def login(cursor):
     conn.commit()
     return True
         
-    
+#function for signing up    
 def signup(cursor):
     # username check
     global error
@@ -158,7 +203,7 @@ def signup(cursor):
     
     #github check
     github = request.form["github"]
-    if not regex_github.findall(github) and len(github) != 0:
+    if not regex_github.findall(github) or len(github) != 0:
         error = 'Invalid Github'
         return
     cursor.execute("SELECT github From User WHERE User.github = '%s'" % github)
@@ -193,12 +238,27 @@ def create_project(cursor):
     if logged_user == None:
         return
 
-    print("Add Project: ")
-    name=input("Name: ")
-    github=input("github.com/")
-    description=input("Description: ")
-    logged_user.add_project(cursor, name, github, description)
+    global error
+    name = request.form['projectname']
+    for i in blacklist:
+        if i in name:
+            error = 'Invalid Project Name'
+            return
+    
+    github = request.form["github"]
+    if not regex_github.findall(github) and len(github) != 0:
+        error = 'Invalid Github'
+        return
 
+    description = request.form['description']
+    
+    try:
+        logged_user.add_project(cursor, name, github, description)
+        conn.commit() 
+        return True
+    except Exception as e:
+        error = e
+        return False
 
 
 if __name__ == '__main__':

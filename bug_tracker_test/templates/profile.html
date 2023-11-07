@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Your Custom Title{% endblock %}
+
+{% block content %}
+    <!-- Your specific content for the profile page goes here -->
+    
+    <form method="post" action="/home">
+        <ul>
+            <div class="projects">
+                <p>{{ data.get_id() }} {{ data.get_username() }}</p>
+            </div>
+        </ul>
+    </form>
+{% endblock %}

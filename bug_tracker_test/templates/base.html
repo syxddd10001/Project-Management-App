@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <title>{% block title %}Profile{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/home.css') }}">
+  </head>
+  <body style="background: #d9d9d9;">
+    <navbar class="navbar">
+      <a style="text-decoration: none;" href="{{ url_for('profile') }}">
+        <button class="buttons">PROFILE</button>
+      </a>
+      <a style="text-decoration: none;" href="{{ url_for('logout') }}">
+        <button class="buttons">LOGOUT</button>
+      </a>
+    </navbar>
+    
+    <div align='center' class="background"> 
+      <button type="button" class="toggle-button" onclick="toggleSidebar()" style="background: transparent; border: none;">
+        <img src="{{ url_for('static', filename='images/sidebar.png') }}" alt="Toggle" style="width: 35px; height: 40px; opacity: 1;"/>
+      </button>
+      <!-- Green sidebar -->
+      <div class="sidebar" id="sidebar">
+        <a class="sidebaritems" href="{{ url_for('home') }}">
+          <button style="margin-top:60px;" class="sidebaritems">HOME</button>
+        </a>
+        
+        <div class="dropdown">
+          <button class="sidebaritems">PROJECTS</button>
+          <div class="dropdown-content">
+            <a style="text-decoration: none;" href="{{ url_for('projects') }}">
+                <button class="dropdown-item">View All Projects</button>
+            </a>
+            <a style="text-decoration: none;" href="{{ url_for('projects') }}">
+                <button class="dropdown-item">Add New Project</button>
+            </a>
+            <!-- Add more project items here -->
+          </div>
+        </div>
+        <div class="dropdown">
+        <button class="sidebaritems">TASKS</button>
+        <div class="dropdown-content">
+            <button class="dropdown-item">View All Tasks</button>
+            <button class="dropdown-item">Add New Task</button>
+            <button class="dropdown-item">Task History</button>
+
+            <!-- Add more project items here -->
+          </div>
+        </div>
+        <div class="dropdown">
+            <button class="sidebaritems">BUGS</button>
+            <div class="dropdown-content">
+                <button class="dropdown-item">View All Bugs</button>
+                <button class="dropdown-item">Add New Bug</button>
+                <button class="dropdown-item">Bug History</button>
+                <!-- Add more project items here -->
+              </div>
+            </div>
+
+      </div>
+      <div class="content">
+        {% block content %}{% endblock %}
+      </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            if (sidebar.style.left === "-400px" || sidebar.style.left === "0") {
+                sidebar.style.left = "0";
+            } else {
+                sidebar.style.left = "-400px";
+            }
+        }
+      </script>
+  </body>
+  
+</html>

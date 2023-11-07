@@ -1,6 +1,180 @@
-.navbar{
-    display: block;
-    margin: 10px;
-    justify-content: end;
-    align-items: flex-end;
+@font-face {
+    font-family: 'Quicksand'; /* Choose a name for your custom font */
+    src: url('/static/fonts/Quicksand-Regular.woff') format('woff'); /* Specify the path to your font file */
+    /* You can also include other font formats like woff2, ttf, and eot */
 }
+
+body {
+    font-family: 'Quicksand', sans-serif; /* Use your custom font as the preferred font */
+}
+
+.buttons{
+    border-radius: 6px;
+    background-color: #37864d;
+    color: white;
+    display:flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    font-family: Quicksand;
+    border:none;
+    font-size: medium;
+    cursor: pointer;
+}
+
+.navbar{
+    position: absolute; /* Position the element absolutely within its containing element */
+    top: 0; /* Position at the top */
+    right: 0; /* Position at the right */
+    margin: 10px;
+}
+
+.background{
+    background: #d9d9d9;
+
+}
+.sidebar {
+    width: 400px; /* Adjust the width as needed */
+    background-color: #37864d; /* Green background color */
+    position: fixed; /* Fixed position to keep it on the left */
+    top: 0;
+    left: 0;
+    height: 100%;
+    transition: left 0.3s; /* Full height of the viewport */
+    display: flex; /* Display the buttons as flex items in a row */
+    flex-direction: column;
+}
+.toggle-button {
+    position: fixed; /* Fixed position to keep it at the top left */
+    top: 10;
+    left: 0;
+    z-index: 1;
+    margin-left: 10px;
+}
+/* Style for the content area */
+.content {
+    margin-left: 250px; /* Width of the sidebar */
+    padding: 20px; /* Add some space for content */
+}
+
+.sidebaritems {
+    background: transparent; /* Set the background to transparent */
+    border: none; /* Remove the button border */
+    color: #fff; /* Text color (white in this example) */
+    cursor: pointer; /* Change the cursor to a pointer on hover */
+    left:0;
+    font-size: 20px;
+    font-family: 'Quicksand', sans-serif;
+
+}
+
+.dropdown-content {
+    display: block;
+    position: absolute;
+    background-color: transparent; /* Set the background color to transparent */
+    min-width: 165px;
+    margin-top: 10px;
+    
+    z-index: 1;
+    top: 100%; /* Position the dropdown content below the button */
+    left: 0; /* Position the dropdown content at the left edge of the button */
+    transform: translateX(70%);
+}
+
+
+.dropdown-item {
+    background: transparent;
+    color: #fff;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    border: none;
+    transition: background-color 0.2s;
+    font-family: 'Quicksand', sans-serif;
+     /* Text color for dropdown items */
+}
+
+/* Show the dropdown content when hovering over the "PROJECTS" button */
+
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    font-family: 'Quicksand', sans-serif;
+    margin: 100px 0px 100px 0px;
+}
+
+.dropdown-item:hover {
+    background-color: #63a074; /* Background color for hover effect */
+    font-family: 'Quicksand', sans-serif;
+}
+
+/* Change the background color when clicking */
+.dropdown-item:active {
+    background-color: #63a074; /* Background color for click effect */
+}
+
+
+/* Reset background color after clicking */
+.dropdown-item:focus {
+    background-color: transparent;
+    outline: none; /* Remove the focus outline */
+}
+
+.createproject{
+    display:flex;
+    flex-direction: column;
+    
+}
+
+input{
+    display: block;
+    height: 40px;
+    width: 100%;
+    border-radius: 20px;
+    font-size: large;
+    text-align: justify;
+    padding-left:20px;
+    margin-right: 10px;
+    
+  }
+.button_a:hover{
+    border-radius: 20px;
+    background-color: #000000;
+    color: #ffffff;
+    cursor: pointer;
+    height: 35px;
+    display: block;
+    width: 50%;
+}
+
+.button_a{
+    border-radius: 20px;
+    background-color: #ffffff;
+    transition: background-color 0.2s ease-in-out;
+    transition: color 0.2s ease-in-out;
+    color: #000000;
+    cursor: pointer;
+    font-family: "Quicksand", sans-serif;
+    height: 35px;
+    display: block;
+    width: 50%;
+}
+
+.form_create_projects{
+    height: 450px;
+    width: 300px;
+    background-color:37864d;
+    padding: 2px 50px;
+    left: 35%;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 40px rgba(8,7,16,0.6);
+  }
+
+label{
+    display: block;
+    margin-top: 25px;
+    text-align: justify;
+    font-size: large;
+    margin-left: 10px;
+  }
